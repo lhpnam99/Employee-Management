@@ -11,20 +11,19 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-public interface ResourceController<R> {
+ interface ResourceController<R> {
 	
 	@GetMapping
-	 List<R> get(@RequestParam (defaultValue = "0") int start, @RequestParam (defaultValue = "2") int limit);
+	 List<R> get(@RequestParam (defaultValue = "0") int start, @RequestParam (defaultValue = "5") int limit);
 	
 	@GetMapping("/{id}")
 	 R get(@PathVariable("id") UUID id);
 	
 	@PostMapping
-	 R add(@RequestBody R data);
+	 R add(@RequestBody R t);
 	
 	@PutMapping("/{id}")
-	 R update(@PathVariable("id") UUID id, @RequestBody R updatedData);
+	 R update(@PathVariable("id") UUID id, @RequestBody R t);
 	
 	@DeleteMapping("/{id}")
 	 void delete(@PathVariable("id") UUID id);

@@ -4,48 +4,48 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
-import net.javaguilde.springboot.exception.ResourceNotFoundException;
 import net.javaguilde.springboot.model.Employee;
 import net.javaguilde.springboot.repository.EmployeeRepository;
+
 @Component
-public class EmployeeService {
+public class EmployeeService extends AbstractResourceService<Employee, UUID>{
+
+	private static final String NOT_FOUND_MESSAGE = "Employee not found";
+
 	@Autowired
-	EmployeeRepository employeeRepository;
+	public EmployeeService(EmployeeRepository repo) {
+		super(repo);
+	}
 
 	public List<Employee> get(int start, int limit) {
-		Page<Employee> page = employeeRepository.findAll(PageRequest.of(start, limit));
-		return page.getContent();
+		return super.get(start, limit, NOT_FOUND_MESSAGE);
 	}
-
+	
 	public Employee get(UUID id) {
-		return employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("employee does not exist"));
+		return super.get(id, NOT_FOUND_MESSAGE);
 	}
-
-	public Employee add(Employee employee) {
-		return employeeRepository.save(employee);
+	
+	public Employee add(Employee data) {
+		return super.add(data);
 	}
-
-	public Employee update(UUID id, Employee employeeDetails) {
-		Employee employee = employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("employee does not exist"));
-		employee.setId(id);
-		employee.setFirstName(employeeDetails.getFirstName());
-		employee.setLastName(employeeDetails.getLastName());
-		employee.setEmailId(employeeDetails.getEmailId());
-		return employeeRepository.save(employee);
+	
+	public Employee update(UUID id, Employee updatedData) {
+		return super.update(id, updatedData, NOT_FOUND_MESSAGE);
 	}
-
+	
 	public void delete(UUID id) {
-		Employee employee = employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("employee does not exist"));
-		employeeRepository.delete(employee);
+		super.delete(id, NOT_FOUND_MESSAGE);
 	}
-
-	public List<Employee> addAll(List<Employee> employee) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	@Override
+	protected void update(Employee existedData, Employee updatedData) {
+		existedData.setFirstName(updatedData.getFirstName());
+		existedData.setLastName(updatedData.getLastName());
+		existedData.setEmailId(updatedData.getEmailId());
+		existedData.setTitle(updatedData.getTitle());
+		existedData.setBelongTo(updatedData.getBelongTo());
 	}
 	
 	

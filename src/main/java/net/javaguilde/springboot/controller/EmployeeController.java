@@ -17,10 +17,14 @@ import net.javaguilde.springboot.service.EmployeeService;
 @RequestMapping("/api/v1/employees")
 public class EmployeeController implements ResourceController<Employee> {
 	
-	@Autowired
 	private EmployeeService employeeService;
 	
-	public List<Employee> get(@RequestParam (defaultValue = "0") int start, @RequestParam (defaultValue = "2") int limit) {
+	@Autowired
+	public EmployeeController(EmployeeService employeeService) {
+		this.employeeService = employeeService;
+	}
+	
+	public List<Employee> get(@RequestParam (defaultValue = "0") int start, @RequestParam (defaultValue = "50") int limit) {
 		return  employeeService.get(start, limit);
 	}
 	

@@ -27,10 +27,10 @@ public class Department {
 	private String name;
 	
 	@OneToMany(mappedBy = "belongTo")
-	private Set<R> employees = new HashSet<>();
+	private Set<Employee> employees = new HashSet<>();
 	
 	@OneToOne
-	private R headDepartment;
+	private Employee headDepartment;
 
 	public Department() {
 	}
@@ -51,19 +51,19 @@ public class Department {
 		this.name = name;
 	}
 
-	public Set<R> getEmployees() {
+	public Set<Employee> getEmployees() {
 		return employees;
 	}
 
-	public void setEmployees(Set<R> employees) {
+	public void setEmployees(Set<Employee> employees) {
 		this.employees = employees;
 	}
 
-	public R getHeadDepartment() {
+	public Employee getHeadDepartment() {
 		return headDepartment;
 	}
 
-	public void setHeadDepartment(R headDepartment) {
+	public void setHeadDepartment(Employee headDepartment) {
 		this.headDepartment = headDepartment;
 	}
 	
